@@ -2,17 +2,19 @@ package main
 
 import (
 	"errors"
-	"github.com/pelletier/go-toml"
-	"github.com/sandertv/gophertunnel/minecraft"
-	"github.com/sandertv/gophertunnel/minecraft/auth"
-	"golang.org/x/oauth2"
 	"io/ioutil"
 	"log"
 	"os"
 	"sync"
+
+	"github.com/pelletier/go-toml"
+	"github.com/sandertv/gophertunnel/minecraft"
+	"github.com/sandertv/gophertunnel/minecraft/auth"
+	"golang.org/x/oauth2"
 )
 
 // The following program implements a proxy that forwards players from one local address to a remote address.
+//한 로컬 주소에서 원격 주소로 플레이어를 전달하는 프록시 구현
 func main() {
 	config := readConfig()
 	token, err := auth.RequestLiveToken()
@@ -42,6 +44,7 @@ func main() {
 }
 
 // handleConn handles a new incoming minecraft.Conn from the minecraft.Listener passed.
+//minecraft.Listener에서 받아온 새 minecraft.Conn 핸들링
 func handleConn(conn *minecraft.Conn, listener *minecraft.Listener, config config, src oauth2.TokenSource) {
 	serverConn, err := minecraft.Dialer{
 		TokenSource: src,
